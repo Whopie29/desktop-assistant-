@@ -24,7 +24,8 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.uic import loadUiType
 from jarbot import Ui_MainWindow
-
+from config import NEWS_API_KEY
+from config import WEATHER_API_KEY
 
 
 
@@ -60,7 +61,7 @@ def alarm(query):
     os.startfile("alarm.py")
 
 def news():
-    main_url="https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=bdde1747019347d199bc69cb16faa199"
+    main_url = f"https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey={NEWS_API_KEY}"
     main_page=requests.get(main_url).json()
     articles = main_page["articles"]
     head=[]
@@ -263,7 +264,7 @@ class MainThread(QThread):
                 my_str=r.recognize_google(audio)
 
                 self.speak(my_str)
-                url=f"https://api.weatherapi.com/v1/current.json?key=201ef23aa6534f92a4770105232409&q={my_str}"
+                url = f"https://api.weatherapi.com/v1/current.json?key={WEATHER_API_KEY}&q={my_str}"
                 r = requests.get(url)
                 self.speak = Dispatch("SAPI.SpVoice").speak
                 wdic=json.loads(r.text)  
