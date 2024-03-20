@@ -3,6 +3,7 @@ import json
 import os
 from PIL import Image
 import pyttsx3
+from config import Api_Key
 
 
 engine = pyttsx3.init('sapi5')
@@ -13,7 +14,7 @@ def speak(audio):
     engine.say(audio)
     engine.runAndWait()
 
-Api_Key = "ExWSfhxssd0OCCOFBEXpJp2AoyRefB2BiEPou7Ir"
+
 def NasaNews(Date):
 
     speak("Extracting data from Nasa .")
