@@ -26,6 +26,12 @@ from PyQt5.uic import loadUiType
 from jarbot import Ui_MainWindow
 from config import NEWS_API_KEY
 from config import WEATHER_API_KEY
+from config import Api_Key
+from PIL import Image 
+
+
+
+
 
 
 
@@ -59,6 +65,37 @@ def alarm(query):
     timehere.write(query)
     timehere.close()
     os.startfile("alarm.py")
+    
+def NasaNews(Date):
+    speak("Extracting data from NASA...")
+    
+    Url = "https://api.nasa.gov/planetary/apod?api_key=" + str(Api_Key)
+    Params = {'date': str(Date)}
+    
+    r = requests.get(Url, params=Params)
+    Data = r.json()
+    
+    Info = Data['explanation']
+    Title = Data['title']
+    Image_Url = Data['url']
+    
+    Image_r = requests.get(Image_Url)
+    
+    FileName = str(Date) + '.jpg'
+    with open(FileName, 'wb') as f:
+        f.write(Image_r.content)
+    
+    Path_1 = FileName  # Set Path_1 to the filename
+    Path_2 = "H:\\JARVIS EXE\\NASAPIC"  # Set Path_2 to the directory where you want to save the image
+    
+    os.rename(Path_1, Path_2 + FileName)  # Rename the file and move it to Path_2
+    
+    img = Image.open(Path_2 + FileName)
+    img.show()
+    
+    speak(f"Title: {Title}")
+    speak(f"According to NASA: {Info}")
+
 
 def news():
     main_url = f"https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey={NEWS_API_KEY}"
@@ -228,6 +265,14 @@ class MainThread(QThread):
                 self.speak("Opening youtube sir...")
                 
                 webbrowser.open('http://www.youtube.com')
+            
+            elif 'nasa news' in self.query:
+                self.speak("Fetching NASA news...")
+                # Correctly format the date
+                date_today = datetime.datetime.now().strftime("%Y-%m-%d")
+                NasaNews(date_today)
+
+                
 
             
 
@@ -265,6 +310,7 @@ class MainThread(QThread):
 
                 self.speak(my_str)
                 url = f"https://api.weatherapi.com/v1/current.json?key={WEATHER_API_KEY}&q={my_str}"
+
                 r = requests.get(url)
                 self.speak = Dispatch("SAPI.SpVoice").speak
                 wdic=json.loads(r.text)  
