@@ -24,7 +24,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.uic import loadUiType
 from jarbot import Ui_MainWindow
-from config import NEWS_API_KEY,Api_Key,WEATHER_API_KEY
+from config import NEWS_API_KEY,pi_Key,WEATHER_API_KEY
 from PIL import Image 
 
 
