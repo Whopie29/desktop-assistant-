@@ -85,10 +85,10 @@ def NasaNews(Date):
     with open(FileName, 'wb') as f:
         f.write(Image_r.content)
     
-    Path_1 = FileName  # Set Path_1 to the filename
-    Path_2 = "H:\\JARVIS EXE\\NASAPIC"  # Set Path_2 to the directory where you want to save the image
+    Path_1 = FileName  
+    Path_2 = "H:\\JARVIS EXE\\NASAPIC"  
     
-    os.rename(Path_1, Path_2 + FileName)  # Rename the file and move it to Path_2
+    os.rename(Path_1, Path_2 + FileName)  
     
     img = Image.open(Path_2 + FileName)
     img.show()
